@@ -1,5 +1,7 @@
 package com.saledro.dsmeta.services;
 
+import java.text.DecimalFormat;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,18 +29,24 @@ public class SmsService {
 
 	@Autowired
 	private SaleRepository saleRepository;
-	
-	
+
 	public void sendSms(Long saleId) {
-		
+
 		Sale sale = saleRepository.findById(saleId).get();
 		String date = sale.getDate().getMonthValue() + "/" + sale.getDate().getYear();
-		
-/*		String msg = "Vendedor " + sale.getSellerName() + " foi destaque em " + date
-				+ " com um total de R$ " +  String.format("%.0f", sale.getAmount());
-*/
-		String msg = "Teste";
-		
+		/*
+		 * 1 String msg = "Vendedor " + sale.getSellerName() + " foi destaque em " +
+		 * date + " com um total de R$ " + String.format("%.0f", sale.getAmount());
+		 */
+
+		 String msg = "Vendedor " + sale.getSellerName() + " foi destaque em " +
+		 date + " com um total de R$ " + new DecimalFormat("#,##0.00").format(sale.getAmount());
+		 
+		/*
+		 * 3 String msg = String.format("O vendedor %s foi destaque em $s com um total de R$ %.2f",
+		 * sale.getSellerName(), date, sale.getAmount());
+		 */
+
 		Twilio.init(twilioSid, twilioKey);
 
 		PhoneNumber to = new PhoneNumber(twilioPhoneTo);
