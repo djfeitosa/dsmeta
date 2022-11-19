@@ -34,18 +34,9 @@ public class SmsService {
 
 		Sale sale = saleRepository.findById(saleId).get();
 		String date = sale.getDate().getMonthValue() + "/" + sale.getDate().getYear();
-		/*
-		 * 1 String msg = "Vendedor " + sale.getSellerName() + " foi destaque em " +
-		 * date + " com um total de R$ " + String.format("%.0f", sale.getAmount());
-		 */
 
-		 String msg = "Vendedor " + sale.getSellerName() + " foi destaque em " +
-		 date + " com um total de R$ " + new DecimalFormat("#,##0.00").format(sale.getAmount());
-		 
-		/*
-		 * 3 String msg = String.format("O vendedor %s foi destaque em $s com um total de R$ %.2f",
-		 * sale.getSellerName(), date, sale.getAmount());
-		 */
+		String msg = "Vendedor " + sale.getSellerName() + " foi destaque em " + date + " com um total de R$ "
+				+ new DecimalFormat("#,##0.00").format(sale.getAmount());
 
 		Twilio.init(twilioSid, twilioKey);
 
